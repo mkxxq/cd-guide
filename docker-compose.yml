@@ -1,0 +1,25 @@
+version: "3"
+services:
+  redis:
+    image: redis:4
+    restart: always
+    volumes:
+      - "db-data:/data"
+    networks:
+      - backend
+  helloworld:
+    image: helloworld:latest
+    ports:
+      - 11323:1323
+    environment:
+      REDIS_ADDR: redis:6379
+    depends_on:
+      - redis
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  db-data:
